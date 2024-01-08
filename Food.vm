@@ -1,0 +1,98 @@
+function Food.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+push constant 1
+pop this 2
+push pointer 0
+push argument 0
+call Food.random 2
+pop this 0
+push pointer 0
+push argument 0
+call Food.random 2
+pop this 1
+push pointer 0
+return
+function Food.getX 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 12
+call Math.multiply 2
+push constant 144
+add
+return
+function Food.getY 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 12
+call Math.multiply 2
+push constant 24
+add
+return
+function Food.random 0
+push argument 0
+pop pointer 0
+push argument 1
+push argument 1
+call Math.multiply 2
+push this 2
+add
+push argument 1
+push constant 1
+add
+push argument 1
+push constant 1
+add
+call Math.multiply 2
+push constant 17
+call Main.mod 2
+push constant 1
+add
+call Math.multiply 2
+push constant 17
+call Main.mod 2
+pop argument 1
+push this 2
+push constant 1
+add
+pop this 2
+push argument 1
+return
+function Food.draw 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 12
+call Math.multiply 2
+push constant 144
+add
+push constant 6
+add
+push this 1
+push constant 12
+call Math.multiply 2
+push constant 24
+add
+push constant 6
+add
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Food.isEaten 0
+push argument 0
+pop pointer 0
+push pointer 0
+push this 1
+call Food.random 2
+pop this 0
+push pointer 0
+push this 0
+call Food.random 2
+pop this 1
+push constant 0
+return

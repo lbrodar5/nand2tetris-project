@@ -1,0 +1,41 @@
+class Food
+{
+    field int x,y,i;
+    constructor Food new(int seed)
+    {
+        let i = 1;
+        let x = random(seed);
+        let y = random(seed);
+        return this;
+    }
+
+    method int getX()
+    {
+        return x*12+144;
+    }
+
+    method int getY()
+    {
+        return y*12+24;
+    }
+
+    method int random(int n)
+    {
+        let n = Main.mod((n*n+i*(Main.mod(((n+1)*(n+1)),17)+1)),17);
+        let i = i + 1;
+        return n;
+    }
+
+    method void draw()
+    {
+        do Screen.drawCircle(x*12+144+6,y*12+24+6,5);
+        return;
+    }
+    method void isEaten()
+    {
+        let x = random(y);
+        let y = random(x);
+        return;
+    }
+    
+}

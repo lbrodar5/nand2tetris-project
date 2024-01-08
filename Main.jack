@@ -1,0 +1,153 @@
+class Main
+    {
+        function void main()
+        {
+            var int difficulty,speed,timer,seed,i,foodX,foodY;
+            var Snake snake;
+            var Food food;
+            var bool gameOver;
+            var char keyPressed;
+            var bool difficultyChosen,foodInsideSnake;
+            var String difficultyStr,scoreStr;
+            var Array xCords,yCords;
+
+            let scoreStr = "Score: ";
+
+            let seed = 0;
+            let difficultyChosen = false;
+            while (~difficultyChosen)
+            {
+                let keyPressed = Keyboard.keyPressed();
+                if((keyPressed = 49))
+                {
+                    let difficultyChosen = true;
+                    let difficulty = 1;
+                    let difficultyStr = "Easy";
+                }
+                if((keyPressed = 50))
+                {
+                    let difficultyChosen = true;
+                    let difficulty = 2;
+                    let difficultyStr = "Normal";
+                }
+                if((keyPressed = 51))
+                {
+                    let difficultyChosen = true;
+                    let difficulty = 3;
+                    let difficultyStr = "Hard";
+                }
+                do Screen.clearScreen();
+                do Output.moveCursor(8,20);
+                do Output.printString("Select your difficulty:");
+                do Output.moveCursor(10,20);
+                do Output.printString("1.Easy");
+                do Output.moveCursor(12,20);
+                do Output.printString("2.Normal");
+                do Output.moveCursor(14,20);
+                do Output.printString("3.Hard");
+                let seed = seed + 1;
+                do Sys.wait(100);
+            }
+
+            let speed = difficulty;
+            let gameOver = false;
+            let timer = 0;
+            let snake = Snake.new(difficulty);
+            let seed = Main.mod(seed,50);
+            let food = Food.new(seed);
+
+            while(~gameOver)
+            {
+
+                do snake.listen();
+                let timer = timer + speed;
+                if(Main.mod(timer,12) = 0)
+                {
+                    //update
+                    do snake.update();
+
+                    //draw    
+                    do Screen.clearScreen();
+                    do Screen.drawLine(143,23,349,23);
+                    do Screen.drawLine(143,23,143,229);
+                    do Screen.drawLine(349,23,349,229);
+                    do Screen.drawLine(143,229,349,229);
+                    do food.draw();
+                    do snake.draw();
+                    do Output.moveCursor(0,18);
+                    do Output.printString(scoreStr);
+                    do Output.printInt(snake.getScore());
+
+                    if(difficulty = 2)
+                    {
+                        do Output.moveCursor(0,38);
+                        do Output.printString(difficultyStr);
+                    } else {
+                        do Output.moveCursor(0,40);
+                        do Output.printString(difficultyStr);
+                    }
+
+
+                    //check colision
+                    let foodX = food.getX();
+                    let foodY = food.getY();
+                    let foodInsideSnake = false;       
+                    let i = 1;
+                    while(i < snake.getLenth())
+                    {
+                        if(snake.getX() = snake.getXCords(i))
+                        {
+                            if(snake.getY() = snake.getYCords(i))
+                            {
+                                let gameOver = true;
+                            }
+                        }
+                        
+                        if(foodX = snake.getXCords(i))
+                        {
+                            if(foodY = snake.getYCords(i))
+                            {
+                                do food.isEaten();
+                            }
+                        }
+                        let i = i + 1;
+                    }
+
+                    if(snake.getX() = foodX & snake.getY()= foodY)
+                    {
+                        do snake.grow();
+                        do food.isEaten();
+                    }
+                    if((snake.getX()< 144) | (snake.getX() > 344) | (snake.getY() < 24) | (snake.getY() > 227))
+                    {
+                        let gameOver = true;
+                    }
+                }
+                do Sys.wait(33);
+            }
+            do Main.gameOverScreen(snake,difficultyStr);
+            return;
+        }
+
+        function void gameOverScreen(Snake snake,String difficultyStr)
+        {
+            do Screen.clearScreen();
+            do Output.moveCursor(11,26);
+            do Output.printString("GAME OVER!");
+            do Output.moveCursor(13,28);
+            do Output.printString(difficultyStr);
+            do Output.moveCursor(15,27);
+            do Output.printString("Score: ");
+            do Output.printInt(snake.getScore());
+            return;
+        }
+
+        function int mod(int x1 , int y1)
+        {
+        while(((x1-y1) = 0) | ((x1-y1) > 0))
+        {
+            let x1 = x1 - y1;
+        }
+        return x1;
+        }
+    }

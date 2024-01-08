@@ -1,0 +1,174 @@
+class Snake
+{
+    field int x,y,speed, size, t;
+    field char direction,inputQueue;
+    field Array xCords, yCords;
+
+    constructor Snake new(int speedd)
+    {
+        let t = 0;
+        let size = 1;
+        let x = 240;
+        let y = 120;
+        let speed = speedd;
+        let direction = 132;
+        let xCords = Array.new(289);
+        let yCords = Array.new(289);
+        let xCords[0] = x;
+        let inputQueue = 132;
+        let yCords[0] = y;
+        return this;
+    }
+
+
+
+    method int getX()
+    {
+        return x;
+    }
+
+    method int getY()
+    {
+        return y;
+    }
+
+    method int getXCords(int i)
+    {
+        return xCords[i];
+    }
+
+    method int getYCords(int i)
+    {
+        return yCords[i];
+    }
+
+    method int getLenth()
+    {
+        return size - 1;
+    }
+
+    method int getScore()
+    {
+        return (size - 1) * speed;
+    }
+
+
+    method void update()
+    {
+        var int i;
+        let i = size-1;
+
+        if(direction = 131) //gore
+        {
+            let y = y - 12;
+        }
+        if(direction = 132 ) //Desno
+        {
+            let x = x  + 12;
+        }
+        if(direction = 133 ) //Dolje
+        {
+            let y = y  + 12;
+        }
+        if(direction = 130 ) //Ljevo
+        {
+            let x = x  - 12;
+        }
+
+
+         while(i > 0)
+        {
+            let xCords[i] = xCords[i-1];
+            let yCords[i] = yCords[i-1];
+            let i = i - 1;  
+        }
+
+        let xCords[0] = x;
+        let yCords[0] = y;
+
+        return;
+    }
+    method void listen()
+    {
+        var char keyPressed;
+        let keyPressed = 0;
+        let keyPressed = Keyboard.keyPressed();
+        if(~(keyPressed = 0))
+        {
+            if((keyPressed = 131))
+            { 
+                if(~(inputQueue = 133))
+                {
+                    if(~(t = 1))
+                    {
+                    let inputQueue = keyPressed;
+                    let t = 1;
+                    }
+
+                }
+
+            } else {
+                if((keyPressed = 133))
+                {
+                    if(~(inputQueue = 131)){
+                        if(~(t = 1))
+                        {
+                        let inputQueue = keyPressed;
+                        let t = 1;
+                        }
+                    }
+                } else {
+                    if((keyPressed = 132))
+                    {
+                        if(~(inputQueue = 130))
+                        {
+                            if(~(t = 1))
+                            {
+                                let inputQueue = keyPressed;
+                                let t = 1;
+                            }
+                        }
+                    } else {
+                        if((keyPressed = 130))
+                        {
+                            if(~(inputQueue = 132))
+                            {
+                                if(~(t = 1))
+                                {
+                                    let inputQueue = keyPressed;
+                                    let t = 1;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        let direction = inputQueue;
+
+        return;
+    }
+
+    method void draw()
+    {
+        var int i;
+        let i = 0;
+        let t = 0;
+        while(i < size)
+        {
+            do Screen.drawRectangle(xCords[i]+1,yCords[i]+1,xCords[i]+11,yCords[i]+11);
+
+            let i = i + 1;
+        }
+        
+        return;
+    }
+
+    method void grow()
+    {
+        let size = size + 1;
+        return;
+    }
+}
